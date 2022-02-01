@@ -1,0 +1,398 @@
+---
+title: "Avertising  .IP"
+author: "ROTICH HARON"
+date: "1/22/2022"
+output: html_document
+---
+# Define the question
+## to determine the groupnof individuals whoa re most likely to click on ads
+---
+#the metric for success
+#### the succes will be determined by  ability to identify which group  mostly clicked on ads
+---
+#the context
+#### A Kenyan entrepreneur has created an online cryptography course and would want to advertise it on her blog. She currently targets audiences originating from various countries. In the past, she ran ads to advertise a related course on the same blog and collected data in the process.
+---
+#experimental design taken
+### 1.the process involves , installing necesssary packages
+###2.loading dataset to R
+###3.Performing data cleaning and outlier detection
+###4. doing univariate and Bivariate abalysis
+---
+
+# loading  our data data set
+
+```{R}
+#install.packages("readxl")
+library("readxl")
+```
+## loading data 
+```{r}
+df<- read_excel("C:/Users/hp/Downloads/advertising.xls")
+df
+```
+# to  view dataset
+```{R} 
+head(df)
+```
+
+# to check for shape of our data
+```{r}
+dim(df)
+# there are 1000 rows and 10 columns in our dataset
+```
+# checking for data types for our ariables
+```{R}
+str(df)
+
+```
+# checking for missing values
+```{r}
+colSums(is.na(df))
+# there no null values in our data set
+#
+```
+# to check for duplicates
+```{r}
+#Check for duplicates
+duplicated_rows <- df[duplicated(df),]
+
+duplicated_rows
+# there are no duplicates
+
+```
+### checking for outliers in numeric columns
+ 
+```{R}
+boxplot(df$Age) # outlier detection in age variable
+# there are no outliers in age
+```
+```{R}
+boxplot(df$'Area Income')
+```
+```{R}
+boxplot(df$'Daily Internet Usage')
+# daily internet usage outlier detection
+```
+```{R}
+boxplot(df$'Daily Time Spent on Site')
+# there are no outliers in the  daily internet usage
+```
+#### UNIVARIATE ANALYSIS : measures of centraltendencies
+##Mean of numeric columns
+```{R}
+df.Age.mean <- mean(df$Age)
+df.Age.mean 
+# the mean age  is 36,009
+```
+## mean for income
+```{R}
+df.Area_Income.mean <- mean(df$"Area Income")
+df.Area_Income.mean
+```
+### Average daily internet usage
+```{R}
+df.Daily_Internet_Usage.mean <- mean(df$"Daily Internet Usage")
+df.Daily_Internet_Usage.mean
+# the mean daily internet usga is 180.0001
+```
+# average daily time spent in site
+```{R}
+df.Daiy_Time_Spent_on_Site.mean<- mean(df$'Daily Time Spent on Site')
+df.Daiy_Time_Spent_on_Site.mean
+
+```
+### finding median
+# median age
+````{R}
+df.Age.median<- median(df$Age)
+df.Age.median ## the median age is 35
+```
+# median Daily_Internet_Usage
+```{R}
+df.Daily_Internet_Usage.median <- median(df$'Daily Internet Usage')
+df.Daily_Internet_Usage.median # the median daily internet usage is 183.13
+```
+### finding mode
+```{R}
+getmode <- function(df) {
+   uniqdf <- unique(df)
+   uniqdf[which.max(tabulate(match(df, uniqdf)))]
+}
+```
+### mode of age
+```{R}
+df.Age.mode <- getmode(df$Age)
+df.Age.mode # the modal age is 31
+```
+#mode of timestamp
+```{R}
+df.Timestamp.mode <- getmode(df$Timestamp)
+df.Timestamp.mode
+# The Timestamp with the hughest frequency is 2016-03-27 00:53:11"
+```
+### mode of city
+```{R}
+df.City.mode<- getmode(df$City)
+df.City.mode
+# Lisamouth" is the city with most appearance
+```
+## mode of
+```{R}
+df.Male.mode <- getmode(df$ Male)
+df.Male.mode
+# most  respondets are female
+```
+
+# mode of  country
+```{R}
+df.Country.mode <- getmode(df$Country)
+df.Country.mode
+#"Czech Republic"  is the city with the highestrespondets
+```
+# mode of Add toipic line
+```{R}
+df.Ad_Topic_Line.mode <- getmode(df$'Ad Topic Line')
+df.Ad_Topic_Line.mode
+##Cloned 5thgeneration orchestration" is the Ad topic line that is mostly utilised
+```
+##mode of Area Income
+```{R}
+df.Area_Icome.mode <- getmode(df$Area_Income)
+df.Area_Icome.mode
+```
+
+## mode of Daily Time spent on site
+```{R}
+df.Daily_Time_Spent_on_Site.mode <- getmode(df$'Daily Time Spent on Site')
+df.Daily_Time_Spent_on_Site.mode
+
+```
+#Measuresof dispersion
+# Max
+```{R}
+df.Age.max<- max(df$Age)
+df.Age.max 
+## the maximum age is 61
+```
+## the maximum  area income
+```{R}
+df.Area_Income.max<- max(df$"Area Income")
+df.Area_Income.max
+## The maximum income is 79484.8
+```
+#finding max Daily_Internet_Usage
+```{R}
+df.Daily_Internet_Usage.max<- max(df$'Daily Internet Usage')
+df.Daily_Internet_Usage.max
+## the highest internet usage is 269.96
+```
+## max timestampt
+```{R}
+df.Timestamp.max<- max(df$Timestamp)
+df.Timestamp.max
+### "2016-07-24 00:22:16" is the highest timestamp
+```
+## finding max daily time spent on site
+```{R}
+df.Daily_Time_Spent_on_Site.max<- max(df$'Daily Time Spent on Site')
+df.Daily_Time_Spent_on_Site.max
+## the  maximum  Daily time spent on site is 91.43
+```
+#### minimum
+```{R}
+df.Age.min<- min(df$Age)
+df.Age.min 
+## the minimum age of the respondents is 19
+```
+## MIN daily internet usage
+```{R}
+df.Daily_Internet_Usage.min<- min(df$'Daily Internet Usage')
+df.Daily_Internet_Usage.min
+## 104.78 is the lowest  Dily internet usage
+```
+### min timestamp
+```{R}
+df.Timestamp.min<- min(df$Timestamp)
+df.Timestamp.min
+## 2016-01-01 02:52:10" is the lowest timestamp
+```
+### min daily time  spent on site
+```{R}
+df.Daily_Time_Spent_on_Site.min<- min(df$'Daily Time Spent on Site')
+df.Daily_Time_Spent_on_Site.min
+##32.6 is the minimum daily time spent on site
+```
+###RANGE
+```{R}
+# age range
+df.Age.range<- range(df$Age)
+df.Age.range
+## the range is 10 to 61
+```
+# range for daily internet usage
+```{R}
+df.Daily_Internet_Usage.range<- range(df$'Daily Internet Usage')
+df.Daily_Internet_Usage.range
+## the  range  fo daily internet usage is  from 104.78 to 269.96
+```
+#  timestamp range
+```{R}
+df.Timestamp.range<- range(df$Timestamp)
+df.Timestamp.range
+## the timestamp range is  from "2016-01-01 02:52:10" to "2016-07-24 00:22:16"
+```
+## finding range  for Daily time spent on site
+```{R}
+df.Daily_Time_Spent_on_Site.range<- range(df$'Daily Time Spent on Site')
+df.Daily_Time_Spent_on_Site.range
+## the  range Daily time spent on site is from  32.60  to 91.43
+```
+
+#### Quantile
+# age quantiles
+```{R}
+df.Age.quantile<- quantile(df$Age)
+df.Age.quantile 
+##  age quantiles are
+```
+
+##Daily_Internet_Usage quantiles
+```{R}
+df.Daily_Internet_Usage.quantile<- quantile(df$"Daily Internet Usage")
+df.Daily_Internet_Usage.quantile
+### daily time spent on site  quantile
+```
+## daily time sent on site quantile
+```{R}
+df.Daily_Time_Spent_on_Site.quantile<- quantile(df$"Daily Time Spent on Site")
+df.Daily_Time_Spent_on_Site.quantile
+``` 
+### Variance
+# age variance
+```{R}
+df.Age.variance<- var(df$Age)
+df.Age.variance
+# the age  variance is 77.18611
+```
+##Daily_Internet_Usage variance
+```{R}
+df.Daily_Internet_Usage.variance<- var(df$'Daily Internet Usage')
+df.Daily_Internet_Usage.variance
+## the Daily_Internet_Usage variance is 1927.415
+```
+##Daily_Time_Spent_on_Site variance
+```{R}
+df.Daily_Time_Spent_on_Site.variance<- var(df$'Daily Time Spent on Site')
+df.Daily_Time_Spent_on_Site.variance
+# Daily_Time_Spent_on_Site has variance of 251.3371
+
+```
+##Standaed deviation
+# age std
+```{R}
+df.Age.std<- sd(df$Age)
+df.Age.std
+# the standard deviation for age is 8.785562
+```
+## Daily_Internet_Usage standard deviation
+```{R}
+df.Daily_Internet_Usage.std<- sd(df$'Daily Internet Usage')
+df.Daily_Internet_Usage.std
+#Daily_Internet_Usage standard deviation is 43.90
+```
+#Daily_Time_Spent_on_Site std
+```{R}
+df.Daily_Time_Spent_on_Site.std<- sd(df$'Daily Time Spent on Site')
+df.Daily_Time_Spent_on_Site.std
+#Daily_Time_Spent_on_Sit  std is 15.85361
+```
+```{R}
+hist(df$Age)
+# most respondents  are between 25 to 40
+```
+```{R}
+histogram <- df$'Daily Internet Usage'
+hist(histogram)
+```
+
+### BIVARIATE ANALYSIS
+### SCATTER PLOTS
+
+#create scatterplot 
+# Age vs clicked on ad
+```{R}
+plot(df$Age, df$Clicked_on_Ad, pch=16, col='steelblue',
+     main='Age vs. clicked_on_Ad',
+     xlab='Age', ylab='Clicked_on_ Ad')
+
+```
+
+## scatter plot for  clicked on ad vs Daily_Internet_Usage
+```{R}
+plot(df$'Daily Internet Usage', df$'Clicked on Ad', pch=16, col='steelblue',
+     main='Daily_Internet_Usage vs. clicked_on_Ad',
+     xlab='Daily_Internet_Usage', ylab='Clicked_on_ Ad')
+```
+## scatter plot  for clicked on Ad vs male
+```{R}
+plot(df$Male, df$Clicked_on_Ad, pch=16, col='steelblue',
+     main='Malevs. clicked_on_Ad',
+     xlab='Male', ylab='Clicked_on_ Ad')
+```
+
+### CORRELATIONS
+# correlation between Age and  Clicked on Ad
+```{R}
+cor(df$Age, df$'Clicked on Ad')
+# their is a positive  correlations  between the age and clicked on Ad of 0.4925
+```
+#
+## clicked on Ad vs Male
+```{R}
+cor(df$Male, df$'Clicked on Ad')
+# there is a weak negative correlation between gender and  clicked on Ad
+```
+#
+#clicked on Ad vs Daily_Internet_Usage
+```{R}
+cor(df$'Daily Internet Usage', df$'Clicked on Ad')
+# there is a strong negative correlation between Daily_Internet_Usage and Clicked on Ad
+# there is a  negative correlatio between cluicked on AD and  daily internet usage
+```
+## clicked on Ad vs Daily_Time_Spent_on_Site
+```{R}
+cor(df$'Daily Time Spent on Site', df$'Clicked on Ad')
+# a strong negative correlation is witnessed between clicked on Ad and Daily_Time_Spent_on_Site
+```
+#### Covariance
+#covarriance between Age and  Clicked on Ad
+```{R}
+cov(df$Age, df$'Clicked on Ad')
+# there exist a positive covvariance  between  age variable and our target variable of 2.164
+```
+
+# clicked on Ad vs Male
+```{R}
+cov(df$Male, df$'Clicked on Ad')
+# there is  negative  covvariance  between gender and  our target variable  of -0.009
+```
+#clicked on Ad vs Daily_Internet_Usage
+```{R}
+cov(df$'Daily Internet Usage', df$'Clicked on Ad')
+# a strong negative covariance is witnessed between the two variables of -17.27
+```
+#
+#clicked on Ad vs Daily_Time_Spent_on_Site
+```{R}
+cov(df$'Daily Time Spent on Site', df$'Clicked on Ad')
+# there is a negative covariance bewtween target variable and Daily_Time_Spent_on_Site of -5.933
+```
+
+#CONCLUSION and recomendation
+### a strong negative covariance is witnessed between the two variables of -17.27
+#there is a negative covariance bewtween target variable and Daily_Time_Spent_on_Site of -5.933
+## moast respondents are between 30 to 40 years of age
+# more  target  should be made on  the age pract of 30 to 40
+
+
